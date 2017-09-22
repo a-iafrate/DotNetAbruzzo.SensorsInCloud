@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Drawing;
 using System.Linq;
 using System.Net;
@@ -14,19 +15,36 @@ namespace Web.Controllers
     public class SensorsController : ApiController
     {
         [Route("")]
-        public IHttpActionResult GetRegions()
+        public IHttpActionResult GetValues()
         {
+            if (IsEmulation())
+            {
+                Random r=new Random();
+                List<SensorLine> lines=new List<SensorLine>();
+                for (int i = 0; i < 10; i++)
+                {
+                    lines.Add(new SensorLine()
+                    {
+                        Id=i,
+                        Timestamp = DateTime.Now.AddSeconds(i*-1),
+                        Value1 = (decimal)r.Next(50)+(decimal)r.NextDouble(),
+                        Value2 = (decimal)r.Next(10) + (decimal)r.NextDouble(),
+                    });
+                }
+                return Ok(new List<SensorLine>(lines));
+                
+            }
             using (EFContext ctx = new EFContext())
             {
                 List<SensorLine> search = ctx.Sensors.ToList();
                 
                 return Ok(new List<SensorLine>(search));
             }
-            return Ok();
+            
         }
 
         [Route("")]
-        public IHttpActionResult PostRegions(SensorLine sensors)
+        public IHttpActionResult PostValue(SensorLine sensors)
         {
             using (EFContext ctx = new EFContext())
             {
@@ -36,6 +54,12 @@ namespace Web.Controllers
                 return Ok();
             }
             
+        }
+
+        public bool IsEmulation()
+        {
+            return ConfigurationManager.AppSettings["simulation"] != null &&
+                   ConfigurationManager.AppSettings["simulation"] == "1";
         }
     }
 }
