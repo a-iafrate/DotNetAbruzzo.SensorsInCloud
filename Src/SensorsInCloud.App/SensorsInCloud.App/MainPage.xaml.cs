@@ -12,6 +12,16 @@ namespace SensorsInCloud.App
         public MainPage()
         {
             InitializeComponent();
+
+            Image1.Source = Device.OnPlatform(
+                iOS: ImageSource.FromFile("Images/humidity.jpg"),
+                Android: ImageSource.FromFile("humidity.jpg"),
+                WinPhone: ImageSource.FromFile("humidity.png"));
+
+            Image2.Source = Device.OnPlatform(
+                iOS: ImageSource.FromFile("Images/temperature.jpg"),
+                Android: ImageSource.FromFile("temperature.jpg"),
+                WinPhone: ImageSource.FromFile("temperature.png"));
         }
     }
 }
