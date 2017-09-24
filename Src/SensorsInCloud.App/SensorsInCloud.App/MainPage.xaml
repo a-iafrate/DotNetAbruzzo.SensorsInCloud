@@ -6,7 +6,10 @@
 
 	<StackLayout>
 		<Image x:Name="Image1" HorizontalOptions="Center"   WidthRequest="100" HeightRequest="100"/>
+        <Label HorizontalOptions="Center" FontSize="Medium" Text="{Binding Value1,StringFormat='{0:N}'}"></Label>
 		<Image x:Name="Image2" HorizontalOptions="Center"   WidthRequest="100" HeightRequest="100"/>
+        <Label HorizontalOptions="Center" FontSize="Medium" Text="{Binding Value2,StringFormat='{0:N}'}"></Label>
+        <Button Text="Refresh" FontSize="Medium" Margin="0,30,0,0" HorizontalOptions="Center" Clicked="Button_OnClicked"></Button>
 	</StackLayout>
 
 </ContentPage>
